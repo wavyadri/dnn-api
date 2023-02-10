@@ -1,4 +1,5 @@
 import express from 'express';
+import cheerio from 'cheerio';
 import 'dotenv/config';
 
 const app = express();
