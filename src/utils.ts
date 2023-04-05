@@ -23,7 +23,7 @@ export const sources: Source[] = [
   },
 ];
 
-export const getSources = async (): Promise<Article[]> => {
+export const getSources = async (sources: Source[]): Promise<Article[]> => {
   const articles: Article[] = [];
   for (const source of sources) {
     const { data }: { data: string } = await axios.get(source.website);
@@ -48,6 +48,6 @@ export const getSources = async (): Promise<Article[]> => {
   return articles;
 };
 
-export const getSource = (id: string): Source => {
-  return sources.filter((source) => source.id === id)[0];
+export const getSource = (id: string): Source[] => {
+  return sources.filter((source) => source.id === id);
 };
