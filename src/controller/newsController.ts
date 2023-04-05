@@ -10,19 +10,17 @@ export const getNews = async (
   next: NextFunction
 ) => {
   try {
-    // const all = await getSources();
-    res.status(200).json({
-      hi: 'hello',
-    });
+    const allArticles = await getSources();
+    return res.status(200).json(allArticles);
   } catch (error) {
-    // if (error === true) {
-    //   return next(
-    //     res.status(400).json({
-    //       message: 'Invalid details provided.',
-    //     })
-    //   );
-    // }
-    // next(error);
+    if (error === true) {
+      return next(
+        res.status(400).json({
+          message: 'Invalid details provided.',
+        })
+      );
+    }
+    next(error);
   }
 };
 
@@ -38,19 +36,20 @@ export const getNewsBySourceID = async (
     const $ = cheerio.load(data);
     const sourceIDArticles: Article[] = [];
 
-    $('a:contains("digital nomad"), a:contains("Digital Nomad")', data).each(
-      (_idx, el) => {
-        const title = $(el).text().replace(/\n/g, '').replace(/\t/g, '');
-        const url = $(el).attr('href');
+    $(
+      'a:contains("digital nomad"), a:contains("Digital Nomad"), a:contains("Digital nomad")',
+      data
+    ).each((_idx, el) => {
+      const title = $(el).text().replace(/\n/g, '').replace(/\t/g, '');
+      const url = $(el).attr('href');
 
-        sourceIDArticles.push({
-          title,
-          url: source.base + url,
-          source: source.name,
-        });
-      }
-    );
-    return res.json(sourceIDArticles);
+      sourceIDArticles.push({
+        title,
+        url: source.base + url,
+        source: source.name,
+      });
+    });
+    return res.status(200).json(sourceIDArticles);
   } catch (error) {
     if (error === true) {
       return next(

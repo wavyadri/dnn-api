@@ -2,8 +2,6 @@ import axios from 'axios';
 import cheerio from 'cheerio';
 import { Source, Article } from './types';
 
-const articles: Article[] = [];
-
 export const sources: Source[] = [
   {
     id: 'forbes',
@@ -25,30 +23,29 @@ export const sources: Source[] = [
   },
 ];
 
-export const getSources = () => {
-  sources.forEach((source) => {
-    axios
-      .get(source.website)
-      .then((response) => {
-        const html = response.data;
-        const $ = cheerio.load(html);
+export const getSources = async (): Promise<Article[]> => {
+  const articles: Article[] = [];
+  for (const source of sources) {
+    const { data }: { data: string } = await axios.get(source.website);
+    const $ = cheerio.load(data);
+    const sourceIDArticles: Article[] = [];
 
-        // capture title, url, source of all relevant articles
-        $(
-          'a:contains("digital nomad"), a:contains("Digital Nomad")',
-          html
-        ).each(() => {
-          // replace null chars
-          const title = $(this).text().replace(/\n/g, '').replace(/\t/g, '');
+    $(
+      'a:contains("digital nomad"), a:contains("Digital Nomad"), a:contains("Digital nomad")',
+      data
+    ).each((_idx, el) => {
+      const title = $(el).text().replace(/\n/g, '').replace(/\t/g, '');
+      const url = $(el).attr('href');
 
-          const url = $(this).attr('href');
-
-          articles.push({ title, url: source.base + url, source: source.name });
-          return articles;
-        });
-      })
-      .catch((error) => console.log('ok'));
-  });
+      sourceIDArticles.push({
+        title,
+        url: source.base + url,
+        source: source.name,
+      });
+    });
+    articles.push(...sourceIDArticles);
+  }
+  return articles;
 };
 
 export const getSource = (id: string): Source => {
