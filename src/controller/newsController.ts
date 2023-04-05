@@ -10,16 +10,19 @@ export const getNews = async (
   next: NextFunction
 ) => {
   try {
-    res.send('welcome /News');
+    // const all = await getSources();
+    res.status(200).json({
+      hi: 'hello',
+    });
   } catch (error) {
-    if (error === true) {
-      return next(
-        res.status(400).json({
-          message: 'Invalid details provided.',
-        })
-      );
-    }
-    next(error);
+    // if (error === true) {
+    //   return next(
+    //     res.status(400).json({
+    //       message: 'Invalid details provided.',
+    //     })
+    //   );
+    // }
+    // next(error);
   }
 };
 
@@ -28,7 +31,7 @@ export const getNewsBySourceID = async (
   res: Response,
   next: NextFunction
 ) => {
-  const sourceID = req.params.sourceID;
+  const sourceID = req.params.id;
   const source = getSource(sourceID);
   try {
     const { data }: { data: string } = await axios.get(source.website);
@@ -36,9 +39,9 @@ export const getNewsBySourceID = async (
     const sourceIDArticles: Article[] = [];
 
     $('a:contains("digital nomad"), a:contains("Digital Nomad")', data).each(
-      () => {
-        const title = $(this).text().replace(/\n/g, '').replace(/\t/g, '');
-        let url = $(this).attr('href');
+      (_idx, el) => {
+        const title = $(el).text().replace(/\n/g, '').replace(/\t/g, '');
+        const url = $(el).attr('href');
 
         sourceIDArticles.push({
           title,
@@ -47,7 +50,6 @@ export const getNewsBySourceID = async (
         });
       }
     );
-
     return res.json(sourceIDArticles);
   } catch (error) {
     if (error === true) {
