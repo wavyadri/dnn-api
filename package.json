@@ -2,15 +2,15 @@
   "name": "dnn-api",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest --coverage --watchAll",
     "test:watch": "jest --watch",
     "build": "rimraf dist && npx tsc",
     "prestart": "npm run build",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "preserve": "npm run build",
-    "server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\""
   },
   "keywords": [],
   "author": "",
