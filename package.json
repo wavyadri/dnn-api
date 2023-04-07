@@ -2,7 +2,7 @@
   "name": "dnn-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "test": "jest --coverage --watchAll",
     "test:watch": "jest --watch",
