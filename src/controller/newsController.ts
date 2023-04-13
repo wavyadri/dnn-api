@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { getSources, getSource, sources } from '../utils';
+import { getSources, getSource } from '../utils';
+import { sources } from '../utils/sources';
 
 export const getNews = async (
   req: Request,
