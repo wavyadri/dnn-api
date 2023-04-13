@@ -1,6 +1,6 @@
 import express from 'express';
-import 'dotenv/config';
 import news from './routes/news';
+import 'dotenv/config';
 
 const app = express();
 
