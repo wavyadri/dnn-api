@@ -6,12 +6,9 @@
   "scripts": {
     "test": "jest --coverage --watchAll",
     "test:watch": "jest --watch",
-    "build": "rimraf dist && npx tsc",
-    "prestart": "npm run build",
-    "start": "node dist/index.js",
-    "preserve": "npm run build",
     "server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
-    "postinstall": "tsc"
+    "build": "rimraf dist && tsc --build tsconfig.json",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",
