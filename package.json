@@ -10,7 +10,8 @@
     "prestart": "npm run build",
     "start": "node dist/src/index.js",
     "preserve": "npm run build",
-    "server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\""
+    "server": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/index.js\"",
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "",
