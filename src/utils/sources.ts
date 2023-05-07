@@ -2,6 +2,15 @@ import { Source } from '../types';
 
 export const sources: Source[] = [
   {
+    id: 'traveling-lifestyle',
+    name: 'Traveling Lifestyle',
+    website: 'https://www.travelinglifestyle.net/?s=digital+nomad',
+    base: '',
+    anchorTag: 'h2 > a:contains("Digital Nomad")',
+    articleTag: 'article.separation-border',
+    dateTag: 'time',
+  },
+  {
     id: 'forbes',
     name: 'Forbes',
     website: 'https://www.forbes.com/search/?q=digital%20nomad',
@@ -19,14 +28,5 @@ export const sources: Source[] = [
       'a:contains("digital nomad"), a:contains("Digital nomad"), a:contains("digital-nomad")',
     articleTag: 'section.featured-post',
     dateTag: 'span.js-date-format',
-  },
-  {
-    id: 'traveling-lifestyle',
-    name: 'Traveling Lifestyle',
-    website: 'https://www.travelinglifestyle.net/?s=digital+nomad',
-    base: '',
-    anchorTag: 'h2 > a:contains("Digital Nomad")',
-    articleTag: 'article.separation-border',
-    dateTag: 'time',
   },
 ];

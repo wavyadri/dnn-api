@@ -14,3 +14,12 @@ export type Article = {
   source: string;
   date: string;
 };
+
+type MetaData = {
+  rowCount: number;
+};
+
+export type ArticlesResponse = {
+  meta: MetaData;
+  data: Article[];
+};
