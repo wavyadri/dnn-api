@@ -29,7 +29,7 @@ export const insertArticles = async (articles: Article[]) => {
 export const insertArticle = async (article: Article) => {
   const { title, url, source, date } = article;
   await pool.query(
-    'INSERT INTO articles (title, url, source, date) VALUES ($1, $2, $3, $4) RETURNING *',
+    'INSERT INTO articles (title, url, source, date) VALUES ($1, $2, $3, $4) ON CONFLICT (url) DO NOTHING',
     [title, url, source, date]
   );
 };
