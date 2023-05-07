@@ -27,7 +27,7 @@ export const scrapeArticles = async (sources: Source[]): Promise<void> => {
         .replace(/\n/g, '')
         .replace(/\t/g, '')
         .trim();
-      const formatDate = moment(date).format('ll');
+      const formatDate = moment(new Date(date)).format('ll');
 
       await insertArticle({
         title,
