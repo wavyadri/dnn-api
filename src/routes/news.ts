@@ -4,6 +4,6 @@ const router: Router = Router();
 
 router.get('/', NewsController.getNews);
 
-router.get('/:id', NewsController.getNewsBySourceID);
+router.get('/:id', NewsController.getNewsBySource);
 
 export default router;

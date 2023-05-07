@@ -1,11 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import {
-  scrapeArticles,
-  getSource,
-  getAllArticles,
-  getArticlesByID,
-  insertArticles,
-} from '../utils/scraper';
+import { scrapeArticles, getSource } from '../utils/scraper';
+import { selectAllArticles, selectArticlesByID } from '../utils/queries';
 import { sources } from '../utils/sources';
 
 export const getNews = async (
@@ -14,9 +9,9 @@ export const getNews = async (
   next: NextFunction
 ) => {
   try {
-    await scrapeArticles(sources); // scrape
-    // insertArticles(scraped); // insert
-    const allArticles = await getAllArticles(); // select all
+    await scrapeArticles(sources);
+
+    const allArticles = await selectAllArticles();
     return res.status(200).json(allArticles);
   } catch (error) {
     if (error === true) {
@@ -30,7 +25,7 @@ export const getNews = async (
   }
 };
 
-export const getNewsBySourceID = async (
+export const getNewsBySource = async (
   req: Request,
   res: Response,
   next: NextFunction
@@ -39,8 +34,9 @@ export const getNewsBySourceID = async (
   const source = getSource(sourceID);
   try {
     await scrapeArticles(source);
-    const sourceIDArticles = await getArticlesByID(source[0].name);
-    return res.status(200).json(sourceIDArticles);
+
+    const sourceArticles = await selectArticlesByID(source[0].name);
+    return res.status(200).json(sourceArticles);
   } catch (error) {
     if (error === true) {
       return next(
