@@ -14,10 +14,10 @@ export const getNews = async (
   next: NextFunction
 ) => {
   try {
-    const scraped = await scrapeArticles(sources); // scrape
+    await scrapeArticles(sources); // scrape
     // insertArticles(scraped); // insert
-    // const allArticles = await getAllArticles(); // select all
-    return res.status(200).json(scraped);
+    const allArticles = await getAllArticles(); // select all
+    return res.status(200).json(allArticles);
   } catch (error) {
     if (error === true) {
       return next(

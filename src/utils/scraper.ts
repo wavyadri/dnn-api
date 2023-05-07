@@ -5,7 +5,6 @@ import pool from '../../db/index';
 import { Source, ArticlesResponse, Article } from '../types';
 import { sources } from './sources';
 import { QueryResult } from 'pg';
-import { AnyARecord } from 'dns';
 
 export const getDuplicateArticles = async (
   title: string
@@ -18,9 +17,24 @@ export const getDuplicateArticles = async (
   return duplicateArticles;
 };
 
-export const scrapeArticles = async (
-  sources: Source[]
-): Promise<ArticlesResponse> => {
+export const insertArticles = async (articles: Article[]) => {
+  articles.forEach(async ({ title, url, source, date }) => {
+    await pool.query(
+      'INSERT INTO articles (title, url, source, date) VALUES ($1, $2, $3, $4) RETURNING *',
+      [title, url, source, date]
+    );
+  });
+};
+
+export const insertArticle = async (article: Article) => {
+  const { title, url, source, date } = article;
+  await pool.query(
+    'INSERT INTO articles (title, url, source, date) VALUES ($1, $2, $3, $4) RETURNING *',
+    [title, url, source, date]
+  );
+};
+
+export const scrapeArticles = async (sources: Source[]): Promise<void> => {
   for (const source of sources) {
     const { data }: { data: string } = await axios.get(source.website);
     const $ = cheerio.load(data);
@@ -51,28 +65,18 @@ export const scrapeArticles = async (
         .trim();
       const formatDate = moment(date).format('ll');
 
-      await pool.query(
-        'INSERT INTO articles (title, url, source, date) VALUES ($1, $2, $3, $4)',
-        [title, source.base + url, source.name, formatDate]
-      );
+      await insertArticle({
+        title,
+        url: source.base + url,
+        source: source.name,
+        date: formatDate,
+      });
     });
   }
-
-  const res = await pool.query('SELECT * FROM articles');
-  return { meta: { rowCount: res.rowCount }, data: res.rows };
 };
 
 export const getSource = (id: string): Source[] => {
   return sources.filter((source) => source.id === id);
-};
-
-export const insertArticles = (articles: Article[]) => {
-  articles.forEach(async ({ title, url, source, date }) => {
-    await pool.query(
-      'INSERT INTO articles (title, url, source, date) VALUES ($1, $2, $3, $4) RETURNING *',
-      [title, url, source, date]
-    );
-  });
 };
 
 export const getAllArticles = async (): Promise<ArticlesResponse> => {
