@@ -30,14 +30,19 @@ A webscraping API delivering recent headlines from the world of digital nomads.
 Retreive all news articles in descending date order.
 
 ```json
-[
-  {
-    "title": "Digital nomads example article",
-    "url": "http://example.com/digital-nomad-example-article",
-    "source": "Example Source",
-    "date": "Mar 23, 2022"
-  }
-]
+{
+  "meta": { "rowCount": 1 },
+  "data": [
+    {
+      "id": 1,
+      "title": "Digital nomads example article",
+      "url": "http://example.com/digital-nomad-example-article",
+      "source": "Example Source",
+      "date": "Mar 23, 2022",
+      "views": 0
+    }
+  ]
+}
 ```
 
 `GET /news/:id`
@@ -45,14 +50,19 @@ Retreive all news articles in descending date order.
 Retreive news articles from a single source in descending date order.
 
 ```json
-[
-  {
-    "title": "Digital nomads example article",
-    "url": "http://example.com/digital-nomad-example-article",
-    "source": "Example Source Matching ID",
-    "date": "Mar 23, 2022"
-  }
-]
+{
+  "meta": { "rowCount": 1 },
+  "data": [
+    {
+      "id": 1,
+      "title": "Digital nomads example article",
+      "url": "http://example.com/digital-nomad-example-article",
+      "source": "Example Source Matching ID",
+      "date": "Mar 23, 2022",
+      "views": 0
+    }
+  ]
+}
 ```
 
 ## Article Properties
@@ -85,6 +95,11 @@ Retreive news articles from a single source in descending date order.
       <td>date</td>
       <td>string</td>
       <td>MMM d, YYYY format of when the article was published</td>
+    </tr>
+    <tr>
+      <td>views</td>
+      <td>number</td>
+      <td>number of times the article link was clicked</td>
     </tr>
   </tbody>
 </table>
