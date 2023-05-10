@@ -10,7 +10,6 @@ export const getNews = async (
 ) => {
   try {
     await scrapeArticles(sources);
-
     const allArticles = await selectAllArticles();
     return res.status(200).json(allArticles);
   } catch (error) {
@@ -33,8 +32,10 @@ export const getNewsBySource = async (
   const sourceID = req.params.id;
   const source = getSource(sourceID);
   try {
+    if (!source.length) {
+      return res.status(200).json({ meta: { rowCount: 0 }, data: [] });
+    }
     await scrapeArticles(source);
-
     const sourceArticles = await selectArticlesByID(source[0].name);
     return res.status(200).json(sourceArticles);
   } catch (error) {
