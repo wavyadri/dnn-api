@@ -1,5 +1,5 @@
 import pool from '../../db/index';
-import { Article, ArticlesResponse } from '../types';
+import { Article, ArticlesResponse } from './types';
 
 export const insertArticle = async (article: Article) => {
   const { title, url, source, date } = article;

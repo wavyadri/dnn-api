@@ -1,7 +1,7 @@
 import axios from 'axios';
 import cheerio from 'cheerio';
 import moment from 'moment';
-import { Source } from '../types';
+import { Source } from './types';
 import { sources } from './sources';
 import { insertArticle } from './queries';
 
@@ -34,6 +34,7 @@ export const scrapeArticles = async (sources: Source[]): Promise<void> => {
         url: source.base + url,
         source: source.name,
         date: formatDate,
+        views: 0,
       });
     });
   }

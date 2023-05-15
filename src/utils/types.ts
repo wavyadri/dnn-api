@@ -13,6 +13,7 @@ export type Article = {
   url: string;
   source: string;
   date: string;
+  views: number;
 };
 
 type MetaData = {
