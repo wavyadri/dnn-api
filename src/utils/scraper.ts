@@ -17,7 +17,9 @@ export const scrapeArticles = async (sources: Source[]): Promise<void> => {
         .replace(/\n/g, '')
         .replace(/\t/g, '')
         .trim();
-      if (!title.length) return;
+      if (!title.length) {
+        return;
+      }
 
       const url = $(el).find(source.anchorTag).attr('href');
 
@@ -27,7 +29,14 @@ export const scrapeArticles = async (sources: Source[]): Promise<void> => {
         .replace(/\n/g, '')
         .replace(/\t/g, '')
         .trim();
-      const formatDate = moment(new Date(date)).format('ll');
+
+      // if date is less than 24hr ago, set to current date (ex. '3 hours ago')
+      let formatDate: string;
+      if (date.charCodeAt(0) >= 48 && date.charCodeAt(0) <= 57) {
+        formatDate = moment(new Date()).format('ll');
+      } else {
+        formatDate = moment(new Date(date)).format('ll');
+      }
 
       await insertArticle({
         title,
